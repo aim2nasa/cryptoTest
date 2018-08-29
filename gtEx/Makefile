@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -g -O2 -Wall -Wextra -std=c++11
+CXXFLAGS = -std=c++11
 
 TARGET = runTests
 SRCS = tests.cpp
