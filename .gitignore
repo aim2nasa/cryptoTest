@@ -1,0 +1,3 @@
+*.o
+gtEx/runTests
+c2Ex/facTest
