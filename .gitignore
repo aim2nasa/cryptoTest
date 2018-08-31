@@ -1,4 +1,5 @@
 *.o
+runTests
 gtEx/runTests
 c2Ex/facTest
 crypto++/aesEx/aesExample
