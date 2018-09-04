@@ -26,6 +26,7 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 	CryptoPP::ECB_Mode<CryptoPP::AES>::Encryption e;
 	e.SetKey(key,sizeof(key));
 
+	//encrypt given plainText
 	std::string cipherText;
 	CryptoPP::StringSource(plainText,true,
 		new CryptoPP::StreamTransformationFilter(e,
@@ -36,6 +37,7 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 	show("cipher text:",cipherText);
 	EXPECT_NE(plainText,cipherText);
 
+	//decrypt cipherText
 	CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption d;
 	d.SetKey(key,sizeof(key));
 
@@ -46,5 +48,7 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 		)
 	);
 	std::cout<<"recovered text:"<<recoveredText<<std::endl;
+
+	//compare decrypt result with the given plainText
 	EXPECT_EQ(plainText,recoveredText);
 }
