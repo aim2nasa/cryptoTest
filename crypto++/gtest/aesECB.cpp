@@ -22,4 +22,5 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 	);
 	std::cout<<"plain text:"<<plainText<<std::endl;
 	std::cout<<"cipher text:"<<cipherText<<std::endl;
+	EXPECT_NE(plainText,cipherText);
 }
