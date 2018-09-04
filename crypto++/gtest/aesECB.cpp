@@ -14,9 +14,9 @@ void show(std::string name,std::string value)
 	);
 	std::cout<<name<<encoded<<std::endl;
 }
- 
-TEST(AesECBTest, encryptDescrypt_Key128bit) { 
-	const unsigned int keySize = CryptoPP::AES::DEFAULT_KEYLENGTH;
+
+void aesEcbEncDec(unsigned int keySizeInBytes) { 
+	const unsigned int keySize = keySizeInBytes;
 	ASSERT_EQ(keySize,16);
 	byte key[keySize];
 	memset(key,0,keySize);
@@ -51,4 +51,8 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 
 	//compare decrypt result with the given plainText
 	EXPECT_EQ(plainText,recoveredText);
+}
+
+TEST(AesECBTest, encryptDescrypt) { 
+	aesEcbEncDec(CryptoPP::AES::DEFAULT_KEYLENGTH); //128bit(16byte)
 }
