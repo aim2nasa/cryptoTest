@@ -5,7 +5,8 @@ SRCS = main.cpp aesBase.cpp aesECB.cpp
 OBJS = ${SRCS:.cpp=.o}
 
 GTEST_LIBRARIES = -lgtest -lpthread
-LIBS = $(GTEST_LIBRARIES)
+CRYPTOPP_LIBRARIES = -lcryptopp
+LIBS = $(GTEST_LIBRARIES) $(CRYPTOPP_LIBRARIES)
 
 all : $(TARGET)
 	@echo $@:$(TARGET)...
