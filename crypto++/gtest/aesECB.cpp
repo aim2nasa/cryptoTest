@@ -35,4 +35,16 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 	std::cout<<"plain text:"<<plainText<<std::endl;
 	show("cipher text:",cipherText);
 	EXPECT_NE(plainText,cipherText);
+
+	CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption d;
+	d.SetKey(key,sizeof(key));
+
+	std::string recoveredText;
+	CryptoPP::StringSource(cipherText,true,
+		new CryptoPP::StreamTransformationFilter(d,
+			new CryptoPP::StringSink(recoveredText)
+		)
+	);
+	std::cout<<"recovered text:"<<recoveredText<<std::endl;
+	EXPECT_EQ(plainText,recoveredText);
 }
