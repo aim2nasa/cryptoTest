@@ -21,7 +21,7 @@ TEST(AesECBTest, encryptDescrypt_Key128bit) {
 	byte key[keySize];
 	memset(key,0,keySize);
 
-	std::string plainText = "This is test";
+	std::string plainText = "ECB Mode test";
 
 	CryptoPP::ECB_Mode<CryptoPP::AES>::Encryption e;
 	e.SetKey(key,sizeof(key));
