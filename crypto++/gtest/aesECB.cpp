@@ -17,7 +17,6 @@ void show(std::string name,std::string value)
 
 void aesEcbEncDec(unsigned int keySizeInBytes) { 
 	const unsigned int keySize = keySizeInBytes;
-	ASSERT_EQ(keySize,16);
 	byte key[keySize];
 	memset(key,0,keySize);
 
@@ -54,5 +53,7 @@ void aesEcbEncDec(unsigned int keySizeInBytes) {
 }
 
 TEST(AesECBTest, encryptDescrypt) { 
-	aesEcbEncDec(CryptoPP::AES::DEFAULT_KEYLENGTH); //128bit(16byte)
+	aesEcbEncDec(16); //128bit(16byte)
+	aesEcbEncDec(24); //192bit(24byte)
+	aesEcbEncDec(32); //256bit(32byte)
 }
