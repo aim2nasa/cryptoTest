@@ -57,3 +57,15 @@ TEST(AesECBTest, encryptDescrypt) {
 	aesEcbEncDec(24); //192bit(24byte)
 	aesEcbEncDec(32); //256bit(32byte)
 }
+
+TEST(AesECBTest, encryptDescryptUnsupportedKeySize) { 
+	unsigned int keyLen=17;
+	try{
+		aesEcbEncDec(keyLen);
+	}catch(const CryptoPP::Exception& e){
+		std::cerr<<e.what()<<std::endl;
+		char msg[256];
+		sprintf(msg,"AES: %d is not a valid key length",keyLen);
+		EXPECT_EQ(std::string(msg),e.what());
+	}
+}
