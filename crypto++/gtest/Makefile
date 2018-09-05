@@ -1,7 +1,7 @@
 CXX = g++
 
 TARGET = runTests
-SRCS = main.cpp util.cpp aesBase.cpp aesECB.cpp aesCBC.cpp
+SRCS = main.cpp util.cpp aesBase.cpp aesECB.cpp aesCBC.cpp aesCFB.cpp
 OBJS = ${SRCS:.cpp=.o}
 
 GTEST_LIBRARIES = -lgtest -lpthread
