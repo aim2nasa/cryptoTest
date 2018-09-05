@@ -2,18 +2,7 @@
 #include <cryptopp/aes.h>
 #include <cryptopp/modes.h>
 #include <cryptopp/filters.h>
-#include <cryptopp/hex.h>
-
-void show(std::string name,std::string value)
-{
-	std::string encoded;
-	CryptoPP::StringSource(value,true,
-		new CryptoPP::HexEncoder(
-			new CryptoPP::StringSink(encoded)
-		)
-	);
-	std::cout<<name<<encoded<<std::endl;
-}
+#include "util.h"
 
 void aesEcbEncDec(unsigned int keySizeInBytes) { 
 	const unsigned int keySize = keySizeInBytes;
