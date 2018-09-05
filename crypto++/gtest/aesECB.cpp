@@ -7,7 +7,7 @@
 void aesEcbEncDec(unsigned int keySizeInBytes) { 
 	const unsigned int keySize = keySizeInBytes;
 	byte key[keySize];
-	memset(key,0,keySize);
+	memset(key,0,sizeof(key));
 
 	std::string plainText = "ECB Mode test";
 
