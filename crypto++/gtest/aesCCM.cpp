@@ -82,7 +82,7 @@ TEST(AesCCMTest, encryptDescrypt) {
 		aesCcmEncDec(24); //192bit(24byte)
 		aesCcmEncDec(32); //256bit(32byte)
 	}catch(const CryptoPP::Exception& e){
-		FAIL();
 		std::cerr<<e.what()<<std::endl;
+		FAIL();
 	}
 }
