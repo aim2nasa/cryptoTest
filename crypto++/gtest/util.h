@@ -4,5 +4,6 @@
 #include <iostream>
 
 void show(std::string name,std::string value);
+void print(std::string str);
 
 #endif

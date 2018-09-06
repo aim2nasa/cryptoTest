@@ -16,7 +16,7 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 
 	std::string header = "head";
 	std::string plainText = "AE CCM test";
-	std::cout<<"plain text:"<<plainText<<std::endl;
+	print("plain text:"+plainText);
 
 	//encryption
 	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Encryption e;
@@ -34,15 +34,15 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 
 	show("cipher text:",cipherText);
 
-	std::cout<<"plainText size:"<<plainText.size()<<std::endl;
-	std::cout<<"cipherText size:"<<cipherText.size()<<std::endl;
+	print("plainText size:"+plainText.size());
+	print("cipherText size:"+cipherText.size());
 
 	//decryption
 	std::string enc = cipherText.substr(0,cipherText.size()-TAG_SIZE);
 	std::string tag = cipherText.substr(cipherText.size()-TAG_SIZE);
 
-	std::cout<<"enc size:"<<enc.size()<<std::endl;
-	std::cout<<"tag size:"<<tag.size()<<std::endl;
+	print("enc size:"+enc.size());
+	print("tag size:"+tag.size());
 
 	EXPECT_EQ(cipherText.size(),enc.size()+tag.size());
 	EXPECT_EQ(TAG_SIZE,tag.size());
@@ -66,13 +66,13 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 
 	df.SetRetrievalChannel("");
 	size_t n = (size_t)df.MaxRetrievable();
-	std::cout<<"retrieved:"<<n<<std::endl;
+	print("retrieved:"+n);
 
 	std::string recovered;
 	recovered.resize(n);
 
 	df.Get( (byte*)recovered.data(),n); 
-	std::cout<<"recovered:"<<recovered<<std::endl;
+	print("recovered:"+recovered);
 	EXPECT_EQ(recovered,plainText);
 }
 

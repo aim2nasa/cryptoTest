@@ -21,7 +21,7 @@ void aesEcbEncDec(unsigned int keySizeInBytes) {
 			new CryptoPP::StringSink(cipherText)
 		)
 	);
-	std::cout<<"plain text:"<<plainText<<std::endl;
+	print("plain text:"+plainText);
 	show("cipher text:",cipherText);
 	EXPECT_NE(plainText,cipherText);
 
@@ -35,7 +35,7 @@ void aesEcbEncDec(unsigned int keySizeInBytes) {
 			new CryptoPP::StringSink(recoveredText)
 		)
 	);
-	std::cout<<"recovered text:"<<recoveredText<<std::endl;
+	print("recovered text:"+recoveredText);
 
 	//compare decrypt result with the given plainText
 	EXPECT_EQ(plainText,recoveredText);
@@ -52,7 +52,7 @@ TEST(AesECBTest, encryptDescryptUnsupportedKeySize) {
 	try{
 		aesEcbEncDec(keyLen);
 	}catch(const CryptoPP::Exception& e){
-		std::cerr<<e.what()<<std::endl;
+		print(e.what());
 		char msg[256];
 		sprintf(msg,"AES: %d is not a valid key length",keyLen);
 		EXPECT_EQ(std::string(msg),e.what());
