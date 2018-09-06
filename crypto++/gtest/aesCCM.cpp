@@ -50,20 +50,16 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Decryption d;
 	d.SetKeyWithIV(key,sizeof(key),iv,sizeof(iv));
 	d.SpecifyDataLengths(header.size(),enc.size(),0);
-	std::cout<<"1 ";
 
 	CryptoPP::AuthenticatedDecryptionFilter df(d,NULL,
 		CryptoPP::AuthenticatedDecryptionFilter::THROW_EXCEPTION);
-	std::cout<<"2 ";
 	
 	df.ChannelPut("AAD",(const byte*)header.data(),header.size());
 	df.ChannelMessageEnd("AAD");
-	std::cout<<"3 ";
 
 	df.ChannelPut("",(const byte*)enc.data(),enc.size());
 	df.ChannelPut("",(const byte*)tag.data(),tag.size());
 	df.ChannelMessageEnd("");
-	std::cout<<"4 ";
 
 	bool b = df.GetLastResult();
 	EXPECT_EQ(b,true);
