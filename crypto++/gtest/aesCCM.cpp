@@ -14,19 +14,19 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 	memset(key,0,sizeof(key));
 	memset(iv,0,sizeof(iv));
 
-	std::string header = "head";
+	std::string aad = "AdditionalAuthenticatedData";
 	std::string plainText = "AE CCM test";
 	print("plain text:"+plainText);
 
 	//encryption
 	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Encryption e;
 	e.SetKeyWithIV(key,sizeof(key),iv,sizeof(iv));
-	e.SpecifyDataLengths(header.size(),plainText.size(),0);
+	e.SpecifyDataLengths(aad.size(),plainText.size(),0);
 
 	std::string cipherText;
 	CryptoPP::AuthenticatedEncryptionFilter ef(e,new CryptoPP::StringSink(cipherText) );
 
-	ef.ChannelPut("AAD",(const byte*)header.data(),header.size());
+	ef.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
 	ef.ChannelMessageEnd("AAD");
 
 	ef.ChannelPut("",(const byte*)plainText.data(),plainText.size());
@@ -49,12 +49,12 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 
 	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Decryption d;
 	d.SetKeyWithIV(key,sizeof(key),iv,sizeof(iv));
-	d.SpecifyDataLengths(header.size(),enc.size(),0);
+	d.SpecifyDataLengths(aad.size(),enc.size(),0);
 
 	CryptoPP::AuthenticatedDecryptionFilter df(d,NULL,
 		CryptoPP::AuthenticatedDecryptionFilter::THROW_EXCEPTION);
 	
-	df.ChannelPut("AAD",(const byte*)header.data(),header.size());
+	df.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
 	df.ChannelMessageEnd("AAD");
 
 	df.ChannelPut("",(const byte*)enc.data(),enc.size());
