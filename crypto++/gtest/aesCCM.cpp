@@ -10,6 +10,7 @@
 class aesCCMTest: public ::testing::Test {
 public:
 	std::string enc(std::string aad,std::string plainText);
+	bool dec(std::string aad,std::string cipherText,std::string& decodedText);
 
 	virtual void SetUp() {
 		std::cout<<"Setup start"<<std::endl;
@@ -49,12 +50,49 @@ std::string aesCCMTest::enc(std::string aad,std::string plainText){
 	return cipherText;
 }
 
+bool aesCCMTest::dec(std::string aad,std::string cipherText,std::string& decodedText){
+	std::string enc = cipherText.substr(0,cipherText.size()-TAG_SIZE);
+	std::string tag = cipherText.substr(cipherText.size()-TAG_SIZE);
+
+	EXPECT_EQ(cipherText.size(),enc.size()+tag.size());
+	EXPECT_EQ(tag.size(),TAG_SIZE);
+
+	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Decryption d;
+	d.SetKeyWithIV(key_,keySize_,iv_,ivSize_);
+	d.SpecifyDataLengths(aad.size(),enc.size(),0);
+
+	CryptoPP::AuthenticatedDecryptionFilter df(d,NULL,
+		CryptoPP::AuthenticatedDecryptionFilter::THROW_EXCEPTION);
+	
+	df.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
+	df.ChannelMessageEnd("AAD");
+
+	df.ChannelPut("",(const byte*)enc.data(),enc.size());
+	df.ChannelPut("",(const byte*)tag.data(),tag.size());
+	df.ChannelMessageEnd("");
+
+	bool b = df.GetLastResult();
+	if(!b) return false;
+
+	df.SetRetrievalChannel("");
+	decodedText.resize((size_t)df.MaxRetrievable());
+	df.Get( (byte*)decodedText.data(),decodedText.size()); 
+
+	return true;
+}
+
 TEST_F(aesCCMTest,encrypt) {
 	std::string plainText = "AE CCM test";
 	std::string cipherText = enc("AAD",plainText);
 
 	EXPECT_EQ(plainText,"AE CCM test");
 	EXPECT_EQ(toHexStr(cipherText),"9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
+}
+
+TEST_F(aesCCMTest,decrypt) {
+	std::string recoveredText;
+	EXPECT_EQ(dec("AAD",enc("AAD","AE CCM test"),recoveredText),true);
+	EXPECT_EQ(recoveredText,"AE CCM test");
 }
 
 void aesCcmEncDec(unsigned int keySizeInBytes){
