@@ -13,7 +13,6 @@ public:
 	bool dec(std::string aad,std::string cipherText,std::string& decodedText);
 
 	virtual void SetUp() {
-		std::cout<<"Setup start"<<std::endl;
 		keySize_ = 32;
 		ivSize_ = CCM_MAX_IV_SIZE;
 
@@ -21,13 +20,10 @@ public:
 		iv_ = new byte[ivSize_];
 		memset(key_,0,keySize_);
 		memset(iv_,0,ivSize_);
-		std::cout<<"Setup end"<<std::endl;
 	}
 	virtual void TearDown() {
-		std::cout<<"Teardown start"<<std::endl;
 		delete [] iv_;
 		delete [] key_;
-		std::cout<<"Teardown stop"<<std::endl;
 	}
 
 	int keySize_,ivSize_;
