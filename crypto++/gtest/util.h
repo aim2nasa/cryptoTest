@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+std::string toHexStr(std::string value);
 void show(std::string name,std::string value);
 void print(std::string str);
 
