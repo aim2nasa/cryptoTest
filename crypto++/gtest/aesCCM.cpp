@@ -34,18 +34,16 @@ void aesCcmEncDec(unsigned int keySizeInBytes){
 
 	show("cipher text:",cipherText);
 
-	print("plainText size:"+plainText.size());
-	print("cipherText size:"+cipherText.size());
+	EXPECT_EQ(plainText.size(),11);
+	EXPECT_EQ(cipherText.size(),19);
 
 	//decryption
 	std::string enc = cipherText.substr(0,cipherText.size()-TAG_SIZE);
 	std::string tag = cipherText.substr(cipherText.size()-TAG_SIZE);
 
-	print("enc size:"+enc.size());
-	print("tag size:"+tag.size());
-
 	EXPECT_EQ(cipherText.size(),enc.size()+tag.size());
-	EXPECT_EQ(TAG_SIZE,tag.size());
+	EXPECT_EQ(enc.size(),plainText.size());
+	EXPECT_EQ(tag.size(),TAG_SIZE);
 
 	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Decryption d;
 	d.SetKeyWithIV(key,sizeof(key),iv,sizeof(iv));
