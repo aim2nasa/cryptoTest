@@ -12,6 +12,7 @@ public:
 	std::string enc(std::string aad,std::string plainText);
 	bool dec(std::string aad,std::string cipherText,std::string& decodedText);
 	void encTest(int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr);
+	void encDecTest(int keySize,int ivSize,std::string aad,std::string plainText);
 
 	void SetUp(int keySize,int ivSize) {
 		keySize_ = keySize;
@@ -83,6 +84,13 @@ void aesCCMTest::encTest(int keySize,int ivSize,std::string aad,std::string plai
 	EXPECT_EQ(toHexStr(enc(aad,plainText)),cipherTextHexStr);
 }
 
+void aesCCMTest::encDecTest(int keySize,int ivSize,std::string aad,std::string plainText){
+	SetUp(keySize,ivSize);
+	std::string recoveredText;
+	EXPECT_EQ(dec(aad,enc(aad,plainText),recoveredText),true);
+	EXPECT_EQ(recoveredText,plainText);
+}
+
 TEST_F(aesCCMTest,encrypt) {
 	encTest(16,13,"AAD","AE CCM test","943DD24E43D8AC18351D42006FC5A8D65ABDB2");
 	encTest(24,13,"AAD","AE CCM test","66988B77828B17B0310F0E08F7837A9041121A");
@@ -90,10 +98,9 @@ TEST_F(aesCCMTest,encrypt) {
 }
 
 TEST_F(aesCCMTest,decrypt) {
-	SetUp(32,CCM_MAX_IV_SIZE);
-	std::string recoveredText;
-	EXPECT_EQ(dec("AAD",enc("AAD","AE CCM test"),recoveredText),true);
-	EXPECT_EQ(recoveredText,"AE CCM test");
+	encDecTest(16,13,"AAD","AE CCM test");
+	encDecTest(24,13,"AAD","AE CCM test");
+	encDecTest(32,13,"AAD","AE CCM test");
 }
 
 void aesCcmEncDec(unsigned int keySizeInBytes){
