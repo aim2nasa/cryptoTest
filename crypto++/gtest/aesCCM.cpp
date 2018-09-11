@@ -5,7 +5,6 @@
 #include "util.h"
 
 #define TAG_SIZE 8
-#define CCM_MAX_IV_SIZE 13
 
 class aesCCMTest: public ::testing::Test {
 public:
