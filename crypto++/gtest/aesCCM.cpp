@@ -102,7 +102,7 @@ TEST_F(aesCCMTest,encrypt) {
 	}
 }
 
-TEST_F(aesCCMTest,decrypt) {
+TEST_F(aesCCMTest,encryptDecrypt) {
 	try{
 		encDecTest(16,13,"AAD","AE CCM test");
 		encDecTest(24,13,"AAD","AE CCM test");
