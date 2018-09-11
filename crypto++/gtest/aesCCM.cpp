@@ -40,12 +40,12 @@ int aesCCMTest::Keys[]={16,24,32};
 int aesCCMTest::IVs[]={7,8,9,10,11,12,13};
 
 std::string aesCCMTest::enc(std::string aad,std::string plainText){
-	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Encryption e;
-	e.SetKeyWithIV(key_,keySize_,iv_,ivSize_);
-	e.SpecifyDataLengths(aad.size(),plainText.size(),0);
+	CryptoPP::AuthenticatedSymmetricCipher* e = asEncryption(TAG_SIZE);
+	e->SetKeyWithIV(key_,keySize_,iv_,ivSize_);
+	e->SpecifyDataLengths(aad.size(),plainText.size(),0);
 
 	std::string cipherText;
-	CryptoPP::AuthenticatedEncryptionFilter ef(e,new CryptoPP::StringSink(cipherText) );
+	CryptoPP::AuthenticatedEncryptionFilter ef(*e,new CryptoPP::StringSink(cipherText) );
 
 	ef.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
 	ef.ChannelMessageEnd("AAD");
@@ -62,11 +62,11 @@ bool aesCCMTest::dec(std::string aad,std::string cipherText,std::string& decoded
 	EXPECT_EQ(cipherText.size(),enc.size()+tag.size());
 	EXPECT_EQ(tag.size(),TAG_SIZE);
 
-	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Decryption d;
-	d.SetKeyWithIV(key_,keySize_,iv_,ivSize_);
-	d.SpecifyDataLengths(aad.size(),enc.size(),0);
+	CryptoPP::AuthenticatedSymmetricCipher* d = asDecryption(TAG_SIZE);
+	d->SetKeyWithIV(key_,keySize_,iv_,ivSize_);
+	d->SpecifyDataLengths(aad.size(),enc.size(),0);
 
-	CryptoPP::AuthenticatedDecryptionFilter df(d,NULL,
+	CryptoPP::AuthenticatedDecryptionFilter df(*d,NULL,
 		CryptoPP::AuthenticatedDecryptionFilter::THROW_EXCEPTION);
 	
 	df.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
