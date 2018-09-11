@@ -12,9 +12,9 @@ public:
 	std::string enc(std::string aad,std::string plainText);
 	bool dec(std::string aad,std::string cipherText,std::string& decodedText);
 
-	virtual void SetUp() {
-		keySize_ = 32;
-		ivSize_ = CCM_MAX_IV_SIZE;
+	void SetUp(int keySize,int ivSize) {
+		keySize_ = keySize;
+		ivSize_ = ivSize;
 
 		key_ = new byte[keySize_];
 		iv_ = new byte[ivSize_];
@@ -78,6 +78,7 @@ bool aesCCMTest::dec(std::string aad,std::string cipherText,std::string& decoded
 }
 
 TEST_F(aesCCMTest,encrypt) {
+	SetUp(32,CCM_MAX_IV_SIZE);
 	std::string plainText = "AE CCM test";
 	std::string cipherText = enc("AAD",plainText);
 
@@ -86,6 +87,7 @@ TEST_F(aesCCMTest,encrypt) {
 }
 
 TEST_F(aesCCMTest,decrypt) {
+	SetUp(32,CCM_MAX_IV_SIZE);
 	std::string recoveredText;
 	EXPECT_EQ(dec("AAD",enc("AAD","AE CCM test"),recoveredText),true);
 	EXPECT_EQ(recoveredText,"AE CCM test");
