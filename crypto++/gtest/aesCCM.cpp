@@ -92,15 +92,25 @@ void aesCCMTest::encDecTest(int keySize,int ivSize,std::string aad,std::string p
 }
 
 TEST_F(aesCCMTest,encrypt) {
-	encTest(16,13,"AAD","AE CCM test","943DD24E43D8AC18351D42006FC5A8D65ABDB2");
-	encTest(24,13,"AAD","AE CCM test","66988B77828B17B0310F0E08F7837A9041121A");
-	encTest(32,13,"AAD","AE CCM test","9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
+	try{
+		encTest(16,13,"AAD","AE CCM test","943DD24E43D8AC18351D42006FC5A8D65ABDB2");
+		encTest(24,13,"AAD","AE CCM test","66988B77828B17B0310F0E08F7837A9041121A");
+		encTest(32,13,"AAD","AE CCM test","9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
+	}catch(const CryptoPP::Exception& e){
+		std::cerr<<e.what()<<std::endl;
+		FAIL();
+	}
 }
 
 TEST_F(aesCCMTest,decrypt) {
-	encDecTest(16,13,"AAD","AE CCM test");
-	encDecTest(24,13,"AAD","AE CCM test");
-	encDecTest(32,13,"AAD","AE CCM test");
+	try{
+		encDecTest(16,13,"AAD","AE CCM test");
+		encDecTest(24,13,"AAD","AE CCM test");
+		encDecTest(32,13,"AAD","AE CCM test");
+	}catch(const CryptoPP::Exception& e){
+		std::cerr<<e.what()<<std::endl;
+		FAIL();
+	}
 }
 
 void aesCcmEncDec(unsigned int keySizeInBytes){
