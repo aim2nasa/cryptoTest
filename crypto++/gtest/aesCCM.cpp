@@ -14,7 +14,7 @@ public:
 	void encTest(int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr);
 	void encDecTest(int keySize,int ivSize,std::string aad,std::string plainText);
 
-	void SetUp(int keySize,int ivSize) {
+	void setUp(int keySize,int ivSize) {
 		keySize_ = keySize;
 		ivSize_ = ivSize;
 
@@ -23,7 +23,7 @@ public:
 		memset(key_,0,keySize_);
 		memset(iv_,0,ivSize_);
 	}
-	virtual void TearDown() {
+	void tearDown(){
 		delete [] iv_;
 		delete [] key_;
 	}
@@ -80,15 +80,17 @@ bool aesCCMTest::dec(std::string aad,std::string cipherText,std::string& decoded
 }
 
 void aesCCMTest::encTest(int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr){
-	SetUp(keySize,ivSize);
+	setUp(keySize,ivSize);
 	EXPECT_EQ(toHexStr(enc(aad,plainText)),cipherTextHexStr);
+	tearDown();
 }
 
 void aesCCMTest::encDecTest(int keySize,int ivSize,std::string aad,std::string plainText){
-	SetUp(keySize,ivSize);
+	setUp(keySize,ivSize);
 	std::string recoveredText;
 	EXPECT_EQ(dec(aad,enc(aad,plainText),recoveredText),true);
 	EXPECT_EQ(recoveredText,plainText);
+	tearDown();
 }
 
 TEST_F(aesCCMTest,encrypt) {
