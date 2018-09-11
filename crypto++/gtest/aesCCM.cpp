@@ -11,6 +11,7 @@ class aesCCMTest: public ::testing::Test {
 public:
 	std::string enc(std::string aad,std::string plainText);
 	bool dec(std::string aad,std::string cipherText,std::string& decodedText);
+	void encTest(int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr);
 
 	void SetUp(int keySize,int ivSize) {
 		keySize_ = keySize;
@@ -77,13 +78,13 @@ bool aesCCMTest::dec(std::string aad,std::string cipherText,std::string& decoded
 	return true;
 }
 
-TEST_F(aesCCMTest,encrypt) {
-	SetUp(32,CCM_MAX_IV_SIZE);
-	std::string plainText = "AE CCM test";
-	std::string cipherText = enc("AAD",plainText);
+void aesCCMTest::encTest(int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr){
+	SetUp(keySize,ivSize);
+	EXPECT_EQ(toHexStr(enc(aad,plainText)),cipherTextHexStr);
+}
 
-	EXPECT_EQ(plainText,"AE CCM test");
-	EXPECT_EQ(toHexStr(cipherText),"9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
+TEST_F(aesCCMTest,encrypt) {
+	encTest(32,13,"AAD","AE CCM test","9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
 }
 
 TEST_F(aesCCMTest,decrypt) {
