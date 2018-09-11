@@ -84,6 +84,8 @@ void aesCCMTest::encTest(int keySize,int ivSize,std::string aad,std::string plai
 }
 
 TEST_F(aesCCMTest,encrypt) {
+	encTest(16,13,"AAD","AE CCM test","943DD24E43D8AC18351D42006FC5A8D65ABDB2");
+	encTest(24,13,"AAD","AE CCM test","66988B77828B17B0310F0E08F7837A9041121A");
 	encTest(32,13,"AAD","AE CCM test","9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
 }
 
