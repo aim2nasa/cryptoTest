@@ -30,7 +30,11 @@ public:
 
 	int keySize_,ivSize_;
 	byte *key_,*iv_;
+
+	static int Keys[];
 };
+
+int aesCCMTest::Keys[]={16,24,32};
 
 std::string aesCCMTest::enc(std::string aad,std::string plainText){
 	CryptoPP::CCM<CryptoPP::AES,TAG_SIZE>::Encryption e;
@@ -106,9 +110,9 @@ TEST_F(aesCCMTest,encrypt) {
 
 TEST_F(aesCCMTest,encryptDecrypt) {
 	try{
-		encDecTest(16,13,"AAD","AE CCM test");
-		encDecTest(24,13,"AAD","AE CCM test");
-		encDecTest(32,13,"AAD","AE CCM test");
+		for(int i=0;i<sizeof(Keys)/sizeof(int);i++)
+			encDecTest(Keys[i],13,"AAD","AE CCM test");
+
 	}catch(const CryptoPP::Exception& e){
 		std::cerr<<e.what()<<std::endl;
 		FAIL();
