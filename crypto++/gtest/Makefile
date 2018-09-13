@@ -1,5 +1,9 @@
 CXX = g++
 
+ifeq ($(shell echo $(TEST_DEBUG)|tr [a-z] [A-Z]),YES)
+	CXXFLAGS += -D DEBUG 
+endif
+
 TARGET = runTests
 SRCS = main.cpp util.cpp aesBase.cpp aesECB.cpp aesCBC.cpp aesCFB.cpp aesOFB.cpp aesCTR.cpp \
 		 aesCCM.cpp
@@ -18,7 +22,7 @@ $(TARGET) : $(OBJS)
 
 %.o : %.cpp
 	@echo $@:$<...
-	$(CXX) -c $< 
+	$(CXX) -c $< $(CXXFLAGS)
 
 clean:
 	@echo $@...
