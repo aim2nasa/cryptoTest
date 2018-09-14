@@ -6,7 +6,7 @@ endif
 
 TARGET = runTests
 SRCS = main.cpp util.cpp aesBase.cpp aesECB.cpp aesCBC.cpp aesCFB.cpp aesOFB.cpp aesCTR.cpp \
-		 aesCCM.cpp
+		 aesCCM.cpp aesGCM.cpp
 OBJS = ${SRCS:.cpp=.o}
 
 GTEST_LIBRARIES = -lgtest -lpthread
