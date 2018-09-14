@@ -105,13 +105,11 @@ void aesGCMTest::encDecTest(int tagSize,int keySize,int ivSize,std::string aad,s
 }
 
 CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asEncryption(int tagSize){
-	CryptoPP::AuthenticatedSymmetricCipher* p = new CryptoPP::GCM<CryptoPP::AES>::Encryption;
-	return p;
+	return new CryptoPP::GCM<CryptoPP::AES>::Encryption;
 }
 
 CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asDecryption(int tagSize){
-	CryptoPP::AuthenticatedSymmetricCipher* p = new CryptoPP::GCM<CryptoPP::AES>::Decryption;
-	return p;
+	return new CryptoPP::GCM<CryptoPP::AES>::Decryption;
 }
 
 TEST_F(aesGCMTest,encrypt) {
