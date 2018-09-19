@@ -10,10 +10,10 @@ public:
 	bool dec(int tagSize,std::string aad,std::string cipherText,std::string& decodedText);
 	void encTest(int tagSize,int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr);
 	void encDecTest(int tagSize,int keySize,int ivSize,std::string aad,std::string plainText);
-	CryptoPP::AuthenticatedSymmetricCipher* asEncryption(int tagSize);
-	CryptoPP::AuthenticatedSymmetricCipher* asDecryption(int tagSize);
+	CryptoPP::AuthenticatedSymmetricCipher* asEncryption();
+	CryptoPP::AuthenticatedSymmetricCipher* asDecryption();
 
-	void setUp(int tagSize,int keySize,int ivSize) {
+	void setUp(int keySize,int ivSize) {
 		keySize_ = keySize;
 		ivSize_ = ivSize;
 
@@ -21,8 +21,8 @@ public:
 		iv_ = new byte[ivSize_];
 		memset(key_,0,keySize_);
 		memset(iv_,0,ivSize_);
-		encCipher_ = asEncryption(tagSize);
-		decCipher_ = asDecryption(tagSize);
+		encCipher_ = asEncryption();
+		decCipher_ = asDecryption();
 		encCipher_->SetKeyWithIV(key_,keySize_,iv_,ivSize_);
 		decCipher_->SetKeyWithIV(key_,keySize_,iv_,ivSize_);
 	}
@@ -91,24 +91,24 @@ bool aesGCMTest::dec(int tagSize,std::string aad,std::string cipherText,std::str
 }
 
 void aesGCMTest::encTest(int tagSize,int keySize,int ivSize,std::string aad,std::string plainText,std::string cipherTextHexStr){
-	setUp(tagSize,keySize,ivSize);
+	setUp(keySize,ivSize);
 	EXPECT_EQ(toHexStr(enc(tagSize,aad,plainText)),cipherTextHexStr);
 	tearDown();
 }
 
 void aesGCMTest::encDecTest(int tagSize,int keySize,int ivSize,std::string aad,std::string plainText){
-	setUp(tagSize,keySize,ivSize);
+	setUp(keySize,ivSize);
 	std::string recoveredText;
 	EXPECT_EQ(dec(tagSize,aad,enc(tagSize,aad,plainText),recoveredText),true);
 	EXPECT_EQ(recoveredText,plainText);
 	tearDown();
 }
 
-CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asEncryption(int tagSize){
+CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asEncryption(){
 	return new CryptoPP::GCM<CryptoPP::AES>::Encryption;
 }
 
-CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asDecryption(int tagSize){
+CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asDecryption(){
 	return new CryptoPP::GCM<CryptoPP::AES>::Decryption;
 }
 
