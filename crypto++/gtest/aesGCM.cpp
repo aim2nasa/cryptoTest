@@ -45,7 +45,7 @@ public:
 
 int aesGCMTest::Keys[]={16,24,32};
 int aesGCMTest::IVs[]={7,8,9,10,11,12,13};
-int aesGCMTest::Tags[]={4,6,8,10,12,14,16};
+int aesGCMTest::Tags[]={16};
 
 std::string aesGCMTest::enc(int tagSize,std::string aad,std::string plainText){
 	encCipher_->SpecifyDataLengths(aad.size(),plainText.size(),0);
@@ -71,7 +71,7 @@ bool aesGCMTest::dec(int tagSize,std::string aad,std::string cipherText,std::str
 	decCipher_->SpecifyDataLengths(aad.size(),enc.size(),0);
 
 	CryptoPP::AuthenticatedDecryptionFilter df(*decCipher_,NULL,
-		CryptoPP::AuthenticatedDecryptionFilter::THROW_EXCEPTION);
+		CryptoPP::AuthenticatedDecryptionFilter::THROW_EXCEPTION,tagSize);
 	
 	df.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
 	df.ChannelMessageEnd("AAD");
