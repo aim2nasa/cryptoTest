@@ -45,13 +45,13 @@ public:
 
 int aesGCMTest::Keys[]={16,24,32};
 int aesGCMTest::IVs[]={7,8,9,10,11,12,13};
-int aesGCMTest::Tags[]={16};
+int aesGCMTest::Tags[]={4,6,8,10,12,14,16};
 
 std::string aesGCMTest::enc(int tagSize,std::string aad,std::string plainText){
 	encCipher_->SpecifyDataLengths(aad.size(),plainText.size(),0);
 
 	std::string cipherText;
-	CryptoPP::AuthenticatedEncryptionFilter ef(*encCipher_,new CryptoPP::StringSink(cipherText) );
+	CryptoPP::AuthenticatedEncryptionFilter ef(*encCipher_,new CryptoPP::StringSink(cipherText),false,tagSize );
 
 	ef.ChannelPut("AAD",(const byte*)aad.data(),aad.size());
 	ef.ChannelMessageEnd("AAD");
