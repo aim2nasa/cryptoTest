@@ -159,3 +159,28 @@ TEST_F(aesGCMTest,encryptDecrypt) {
 		FAIL();
 	}
 }
+
+TEST_F(aesGCMTest,validateMAC) {
+   int keySize = 32;
+   int ivSize = 13;
+   int tagSize = 16;
+   std::string aad = "AAD";
+   std::string plainText = "AE GCM test";
+
+   setUp(keySize,ivSize);
+
+   std::string cipherText = enc(tagSize,aad,plainText);
+   EXPECT_EQ(toHexStr(cipherText),"90441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6BB3B");
+
+   cipherText+= "0"; //compromise encryption result
+
+   std::string decodedText;
+	try{
+   	dec(tagSize,aad,cipherText,decodedText);
+		FAIL(); //dec() must throw exception if compromised
+	}catch(const CryptoPP::Exception& e){
+		EXPECT_EQ(std::string("HashVerificationFilter: message hash or MAC not valid"),e.what());
+	}
+
+   tearDown();
+}
