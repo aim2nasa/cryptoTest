@@ -172,7 +172,8 @@ TEST_F(aesGCMTest,validateMAC) {
    std::string cipherText = enc(tagSize,aad,plainText);
    EXPECT_EQ(toHexStr(cipherText),"90441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6BB3B");
 
-   cipherText+= "0"; //compromise encryption result
+   cipherText[0] = 0; //compromise encryption result
+   EXPECT_EQ(toHexStr(cipherText),"00441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6BB3B");
 
    std::string decodedText;
 	try{
