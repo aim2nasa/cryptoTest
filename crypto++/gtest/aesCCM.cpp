@@ -161,10 +161,11 @@ CryptoPP::AuthenticatedSymmetricCipher* aesCCMTest::asDecryption(int tagSize){
 }
 
 TEST_F(aesCCMTest,encrypt) {
+	std::string adata(16, (char)0x00);
 	try{
-		encTest(8,16,13,"AAD","AE CCM test","943DD24E43D8AC18351D42006FC5A8D65ABDB2");
-		encTest(8,24,13,"AAD","AE CCM test","66988B77828B17B0310F0E08F7837A9041121A");
-		encTest(8,32,13,"AAD","AE CCM test","9CDB64EB4BB626AC2D4F5A6483C1EC756305C4");
+		encTest(8,16,13,adata,"AE CCM test","943DD24E43D8AC18351D42FD937A4A4F24080B");
+		encTest(8,24,13,adata,"AE CCM test","66988B77828B17B0310F0EED3A8F65720A37A3");
+		encTest(8,32,13,adata,"AE CCM test","9CDB64EB4BB626AC2D4F5A7B28F376BF57B95B");
 	}catch(const CryptoPP::Exception& e){
 		std::cerr<<e.what()<<std::endl;
 		FAIL();
@@ -172,11 +173,12 @@ TEST_F(aesCCMTest,encrypt) {
 }
 
 TEST_F(aesCCMTest,encryptDecrypt) {
+	std::string adata(16, (char)0x00);
 	try{
 		for(int i=0;i<sizeof(Keys)/sizeof(int);i++)
 			for(int j=0;j<sizeof(IVs)/sizeof(int);j++)
 				for(int k=0;k<sizeof(Tags)/sizeof(int);k++){
-					encDecTest(Tags[k],Keys[i],IVs[j],"AAD","AE CCM test");
+					encDecTest(Tags[k],Keys[i],IVs[j],adata,"AE CCM test");
 					char msg[256];
 					sprintf(msg,"encryptDecrypt for Key Size:%d byte,IV Size:%d byte Tag size:%d done",Keys[i],IVs[j],Tags[k]);
 					print(msg);

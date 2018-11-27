@@ -113,30 +113,31 @@ CryptoPP::AuthenticatedSymmetricCipher* aesGCMTest::asDecryption(){
 }
 
 TEST_F(aesGCMTest,encrypt) {
+	std::string adata(16, (char)0x00);
 	try{
-		encTest(4 ,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5");
-		encTest(6 ,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5B9EF");
-		encTest(8 ,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5B9EF123B");
-		encTest(10,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5B9EF123B3D36");
-		encTest(12,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5B9EF123B3D363016");
-		encTest(14,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5B9EF123B3D36301639C6");
-		encTest(16,16,13,"AAD","AE GCM test","7EAC7BA8272B0DA894E9E2A8CF90E5B9EF123B3D36301639C6B60C");
+		encTest(4 ,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD4");
+		encTest(6 ,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD410C8");
+		encTest(8 ,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD410C85C41");
+		encTest(10,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD410C85C41E264");
+		encTest(12,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD410C85C41E2646697");
+		encTest(14,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD410C85C41E2646697CA47");
+		encTest(16,16,13,adata,"AE GCM test","7EAC7BA8272B0DA894E9E238BA8FD410C85C41E2646697CA475369");
 
-		encTest(4 ,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA34");
-		encTest(6 ,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA345773");
-		encTest(8 ,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA345773E213");
-		encTest(10,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA345773E2137359");
-		encTest(12,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA345773E213735912B6");
-		encTest(14,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA345773E213735912B686FE");
-		encTest(16,24,13,"AAD","AE GCM test","34A0E5B46BC10DD2812F4B8B9FBA345773E213735912B686FEE4A0");
+		encTest(4 ,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A");
+		encTest(6 ,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A1EF0");
+		encTest(8 ,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A1EF06D02");
+		encTest(10,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A1EF06D0283FC");
+		encTest(12,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A1EF06D0283FC7437");
+		encTest(14,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A1EF06D0283FC7437F795");
+		encTest(16,24,13,adata,"AE GCM test","34A0E5B46BC10DD2812F4B64907D4A1EF06D0283FC7437F7951B23");
 
-		encTest(4 ,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE");
-		encTest(6 ,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE407A");
-		encTest(8 ,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE407A5873");
-		encTest(10,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE407A58730F38");
-		encTest(12,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC");
-		encTest(14,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6");
-		encTest(16,32,13,"AAD","AE GCM test","90441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6BB3B");
+		encTest(4 ,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1");
+		encTest(6 ,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1795A");
+		encTest(8 ,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1795A599F");
+		encTest(10,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1795A599F71E0");
+		encTest(12,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1795A599F71E0E484");
+		encTest(14,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1795A599F71E0E484FA00");
+		encTest(16,32,13,adata,"AE GCM test","90441CC8145ABDEBD7FBFFBDE560A1795A599F71E0E484FA00A2BC");
 	}catch(const CryptoPP::Exception& e){
 		std::cerr<<e.what()<<std::endl;
 		FAIL();
@@ -144,11 +145,12 @@ TEST_F(aesGCMTest,encrypt) {
 }
 
 TEST_F(aesGCMTest,encryptDecrypt) {
+	std::string adata(16, (char)0x00);
 	try{
 		for(int i=0;i<sizeof(Keys)/sizeof(int);i++)
 			for(int j=0;j<sizeof(IVs)/sizeof(int);j++)
 				for(int k=0;k<sizeof(Tags)/sizeof(int);k++){
-					encDecTest(Tags[k],Keys[i],IVs[j],"AAD","AE GCM test");
+					encDecTest(Tags[k],Keys[i],IVs[j],adata,"AE GCM test");
 					char msg[256];
 					sprintf(msg,"encryptDecrypt for Key Size:%d byte,IV Size:%d byte Tag size:%d done",Keys[i],IVs[j],Tags[k]);
 					print(msg);
@@ -164,20 +166,20 @@ TEST_F(aesGCMTest,validateMAC) {
    int keySize = 32;
    int ivSize = 13;
    int tagSize = 16;
-   std::string aad = "AAD";
+	std::string adata(16, (char)0x00);
    std::string plainText = "AE GCM test";
 
    setUp(keySize,ivSize);
 
-   std::string cipherText = enc(tagSize,aad,plainText);
-   EXPECT_EQ(toHexStr(cipherText),"90441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6BB3B");
+   std::string cipherText = enc(tagSize,adata,plainText);
+   EXPECT_EQ(toHexStr(cipherText),"90441CC8145ABDEBD7FBFFBDE560A1795A599F71E0E484FA00A2BC");
 
    cipherText[0] = 0; //compromise encryption result
-   EXPECT_EQ(toHexStr(cipherText),"00441CC8145ABDEBD7FBFF58DABAFE407A58730F38A5CC52F6BB3B");
+   EXPECT_EQ(toHexStr(cipherText),"00441CC8145ABDEBD7FBFFBDE560A1795A599F71E0E484FA00A2BC");
 
    std::string decodedText;
 	try{
-   	dec(tagSize,aad,cipherText,decodedText);
+   	dec(tagSize,adata,cipherText,decodedText);
 		FAIL(); //dec() must throw exception if compromised
 	}catch(const CryptoPP::Exception& e){
 		EXPECT_EQ(std::string("HashVerificationFilter: message hash or MAC not valid"),e.what());
